@@ -101,3 +101,18 @@ node /tmp/take-space-screenshots.mjs
 ```
 
 Commit `public/market-preview.png` to the branch.
+
+### 7. Add deep link to the Android app
+
+Add an intent filter in `mastodon/src/main/AndroidManifest.xml` inside the `MainActivity` block, alongside the existing space entries:
+
+```xml
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW"/>
+    <category android:name="android.intent.category.BROWSABLE"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+    <data android:scheme="https" android:host="mastodon.kronk.info" android:pathPrefix="/market"/>
+</intent-filter>
+```
+
+This ensures tapping a link to the space from outside the app opens it in-app rather than in the browser. Commit and push to `development` in `Kronkverse/kronk-app` — CI will build and deploy a new dev APK automatically.
